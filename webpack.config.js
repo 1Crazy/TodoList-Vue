@@ -4,6 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
+
 const isDev = process.env.NODE_ENV === 'development' //判断是否为开发环境
 //不同平台上设置环境变量的方式不一样，装入cross-env这个包可以兼容mac和windwos系统上的命令，在package.json中使用
 const config = {
