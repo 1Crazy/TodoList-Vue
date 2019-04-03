@@ -3,7 +3,7 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-
+const ExtractPlugin = require('extract-text-webpack-plugin') //帮助我们把非js东西打包成单独非js文件
 
 const isDev = process.env.NODE_ENV === 'development' //判断是否为开发环境
 //不同平台上设置环境变量的方式不一样，装入cross-env这个包可以兼容mac和windwos系统上的命令，在package.json中使用
@@ -11,7 +11,7 @@ const config = {
   target: 'web',//webpack编译目标
   entry: path.join(__dirname,'src/index.js'),
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash:8].js',
     path: path.join(__dirname,'dist')
   },
   plugins: [
@@ -24,10 +24,10 @@ const config = {
     new VueLoaderPlugin(),
     new HTMLPlugin(),
   ],
-  mode: 'development',//开发环境同样不压缩bundle.js
-  // optimization:{
-  //   minimize: false//不压缩bundle.js，默认为true
-  // },
+  // mode: 'development',//开发环境同样不压缩bundle.js
+  optimization:{
+    minimize: false//不压缩bundle.js，默认为true
+  },
   module: {
     rules: [
       {
@@ -38,34 +38,20 @@ const config = {
         test: /\.jsx$/,
         loader: 'babel-loader'
       },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
-      },
-      {
-        test: /\.styl/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-            }
-          },
-          'stylus-loader'
-        ]
-      },
+      // {
+      //   test: /\.css$/,
+      //   use: [
+      //     'style-loader',
+      //     'css-loader'
+      //   ]
+      // },
       {
         test: /\.(gif|jpg|jpeg|png|svg)$/,
         use: [
           {
             loader: 'url-loader',
             options: {
-              limit: 1024,
+              limit: 222222,
               name: '[name]-aaa.[ext]'
             }
           }
@@ -77,7 +63,23 @@ const config = {
 
 //如果是开发环境
 if (isDev) {
+  config.module.rules.push({
+      test: /\.styl/,
+      use: [
+        'style-loader',
+        'css-loader',
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true,
+          }
+        },
+        'stylus-loader'
+      ]
+  })
+
   config.devtool = '#cheap-module-eval-source-map'//开发环境中source文件显示源码
+
   config.devServer = {
     port: 8080,
     host: '0.0.0.0',
@@ -87,11 +89,62 @@ if (isDev) {
     hot: true //修改某组件代码，只会更新某组件，而不是刷新整个页面
     // open: true //编译完成后自动打开浏览器
   }
+
   //配置了上面hot在搭配下面使用
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   )
+
+} else {
+  config.entry = {
+    app: path.join(__dirname,'src/index.js'),
+    vender: ['vue']
+  }//分离vue库为单独js文件
+
+  config.output.filename = '[name].[chunkhash:8].js'
+
+  config.module.rules.push({
+    test: /\.styl/,
+    use: ExtractPlugin.extract({
+      fallback: 'style-loader',
+      use: [
+        'css-loader',
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true,
+          }
+        },
+        'stylus-loader'
+      ]
+    })
+  })
+  
+  config.plugins.push(
+      new ExtractPlugin('styles.[hash:8].css'),
+  )
+
+  config.optimization = {
+    splitChunks: {
+        cacheGroups: {                  // 这里开始设置缓存的 chunks
+            commons: {
+                chunks: 'initial',      // 必须三选一： "initial" | "all" | "async"(默认就是异步)
+                minSize: 0,             // 最小尺寸，默认0,
+                minChunks: 2,           // 最小 chunk ，默认1
+                maxInitialRequests: 5   // 最大初始化请求书，默认1
+            },
+            vendor: {
+                test: /node_modules/,   // 正则规则验证，如果符合就提取 chunk
+                chunks: 'initial',      // 必须三选一： "initial" | "all" | "async"(默认就是异步)
+                name: 'vendor',         // 要缓存的 分隔出来的 chunk 名称
+                priority: 10,           // 缓存组优先级
+                enforce: true
+            }
+        }
+    },
+    runtimeChunk: true
+  }
 }
 
 module.exports = config
