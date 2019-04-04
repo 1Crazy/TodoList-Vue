@@ -3,7 +3,7 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const merge = require('webpack-merge'); //合理合并webpack的config文件
+const merge = require('webpack-merge'); //根据webpack配置项，合理合并webpack的config文件
 const ExtractPlugin = require('extract-text-webpack-plugin') //帮助我们把非js东西打包成单独非js文件
 
 const baseConfig = require('./webpack.config.base')
@@ -41,7 +41,7 @@ if (isDev) {
     module: {
       rules: [
         {
-          test: /\.styl/,
+          test: /\.styl(us)?$/,
           use: [
             'style-loader',
             'css-loader',
@@ -75,7 +75,7 @@ if (isDev) {
     module:{
       rules: [
         {
-          test: /\.styl/,
+          test: /\.styl(us)?$/,
           use: ExtractPlugin.extract({
             fallback: 'style-loader',
             use: [
@@ -118,3 +118,5 @@ if (isDev) {
     ]),
   })
 }
+
+module.exports = config
