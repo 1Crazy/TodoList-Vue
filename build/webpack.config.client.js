@@ -24,7 +24,7 @@ const defaultPluins = [
 
 const devServer = {
   port: 8080,
-  host: '0.0.0.0',
+  host: 'localhost',
   overlay: {
     errors: true//编译时如果有任何错误，让他显示到网页上
   },
