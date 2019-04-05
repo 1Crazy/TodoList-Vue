@@ -24,10 +24,10 @@ const config = {
     new VueLoaderPlugin(),
     new HTMLPlugin(),
   ],
-  // mode: 'development',//开发环境同样不压缩bundle.js
-  optimization:{
-    minimize: false//不压缩bundle.js，默认为true
-  },
+  mode: process.env.NODE_ENV || "production",//有2个值development||production当值为development时不压缩bundle.js
+  // optimization:{
+  //   minimize: false//不压缩bundle.js，默认为true
+  // },
   module: {
     rules: [
       {
@@ -52,7 +52,7 @@ const config = {
             loader: 'url-loader',
             options: {
               limit: 222222,
-              name: '[name]-aaa.[ext]'
+              name: '[name]-aaa.[hash:8].[ext]'
             }
           }
         ]
@@ -93,13 +93,13 @@ if (isDev) {
   //配置了上面hot在搭配下面使用
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    // new webpack.NoEmitOnErrorsPlugin() webpack4已取消
   )
 
 } else {
   config.entry = {
     app: path.join(__dirname,'src/index.js'),
-    vender: ['vue']
+    // vender: ['vue']
   }//分离vue库为单独js文件
 
   config.output.filename = '[name].[chunkhash:8].js'
@@ -129,18 +129,18 @@ if (isDev) {
     splitChunks: {
         cacheGroups: {                  // 这里开始设置缓存的 chunks
             commons: {
-                chunks: 'initial',      // 必须三选一： "initial" | "all" | "async"(默认就是异步)
+                chunks: 'all',      // 必须三选一： "initial" | "all" | "async"(默认就是异步)
                 minSize: 0,             // 最小尺寸，默认0,
-                minChunks: 2,           // 最小 chunk ，默认1
-                maxInitialRequests: 5   // 最大初始化请求书，默认1
+                // minChunks: 2,           // 最小 chunk ，默认1
+                // maxInitialRequests: 5   // 最大初始化请求书，默认1
             },
-            vendor: {
-                test: /node_modules/,   // 正则规则验证，如果符合就提取 chunk
-                chunks: 'initial',      // 必须三选一： "initial" | "all" | "async"(默认就是异步)
-                name: 'vendor',         // 要缓存的 分隔出来的 chunk 名称
-                priority: 10,           // 缓存组优先级
-                enforce: true
-            }
+            // vendor: {
+            //     test: /node_modules/,   // 正则规则验证，如果符合就提取 chunk
+            //     chunks: 'initial',      // 必须三选一： "initial" | "all" | "async"(默认就是异步)
+            //     name: 'vendor',         // 要缓存的 分隔出来的 chunk 名称
+            //     priority: 10,           // 缓存组优先级
+            //     enforce: true
+            // }
         }
     },
     runtimeChunk: true
