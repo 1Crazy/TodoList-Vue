@@ -20,40 +20,40 @@ export default {
   props: {
     filter: {
       type: String,
-      required: true,
+      required: true
     },
     todos: {
       type: Array,
       required: true
     }
   },
-  data() {
+  data () {
     return {
-      states: ['all','active','completed']
+      states: ['all', 'active', 'completed']
     }
   },
   computed: {
-    unFinishedTodoLength() {
+    unFinishedTodoLength () {
       return this.todos.filter(todo => !todo.completed).length
-    },
+    }
   },
   methods: {
-    clearAllCompleted() {
+    clearAllCompleted () {
       this.$emit('clearAllCompleted')
     },
-    toggleFilter(state) {
+    toggleFilter (state) {
       this.$emit('toggle', state)
     },
-    showText(state) {
+    showText (state) {
       switch (state) {
         case 'all':
-          return "全部"
+          return '全部'
         case 'active':
-          return "未完成"
+          return '未完成'
         case 'completed':
-          return "已完成"
+          return '已完成'
         default:
-          break;
+          break
       }
     }
   }

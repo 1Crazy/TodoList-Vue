@@ -17,7 +17,7 @@ export default {
   components: {
     Header,
     Todo,
-    Footer,
+    Footer
   }
 }
 </script>
