@@ -4,7 +4,7 @@
     <span class="tabs">
       <span
         v-for="state in states"
-        :key="state"
+        v-bind:key="state"
         :class="[state,filter === state ? 'actived' : '']"
         @click="toggleFilter(state)"
       >
