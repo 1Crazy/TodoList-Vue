@@ -8,10 +8,10 @@ const config = {
   //   minimize: false//不压缩bundle.js，默认为true webpack3中可以使用这个
   // },
   target: 'web',//webpack编译目标
-  entry: path.join(__dirname,'../src/index.js'),
+  entry: path.join(__dirname,'../client/index.js'),
   output: {
     filename: 'bundle.[hash:8].js',
-    path: path.join(__dirname,'dist')
+    path: path.join(__dirname,'../dist')
   },
   module: {
     rules: [
