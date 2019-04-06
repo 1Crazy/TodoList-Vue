@@ -8,5 +8,8 @@
     "parser": "babel-eslint",
     "ecmaVersion": 2017,
     "sourceType": "module"
+  },
+  "rules": {
+    "no-new": "off"
   }
 }
