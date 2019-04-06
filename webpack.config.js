@@ -120,7 +120,7 @@ if (isDev) {
       ]
     })
   })
-  
+
   config.plugins.push(
       new ExtractPlugin('styles.[hash:8].css'),
   )
