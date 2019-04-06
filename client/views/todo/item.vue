@@ -12,15 +12,15 @@
 
 <script>
 export default {
-  props:{
+  props: {
     todo: {
       type: Object,
-      required: true,
+      required: true
     }
   },
   methods: {
-    //触发todo.vue里面的一个事件，已达到修改父组件的目的，父组件中通过监听该事件修改其内部状态
-    deleteTodo() {
+    // 触发todo.vue里面的一个事件，已达到修改父组件的目的，父组件中通过监听该事件修改其内部状态
+    deleteTodo () {
       this.$emit('del', this.todo.id)
     }
   }

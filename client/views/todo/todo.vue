@@ -1,19 +1,19 @@
 <template>
   <section class="real-app">
-    <input 
+    <input
       type="text"
       class="add-input"
       autofocus="autofocus"
       placeholder="接下来要做什么？"
       @keyup.enter="addTodo"
     >
-    <Item 
+    <Item
       :todo="todo"
       v-for="todo in filteredTodos"
       :key="todo.id"
-      @del="deleteTodo"  
+      @del="deleteTodo"
     /> <!-- @del="deleteTodo" 监听子组件中del事件的触发-->
-    <Tabs 
+    <Tabs
       :filter="filter"
       :todos="todos"
       @toggle="toggleFilter"
@@ -26,10 +26,10 @@
 import Item from './item.vue'
 import Tabs from './tabs.vue'
 
-let id = 0;
+let id = 0
 
 export default {
-  data() {
+  data () {
     return {
       todos: [],
       filter: 'all'
@@ -37,10 +37,10 @@ export default {
   },
   components: {
     Item,
-    Tabs,
+    Tabs
   },
   computed: {
-    filteredTodos() {
+    filteredTodos () {
       if (this.filter === 'all') {
         return this.todos
       }
@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    addTodo(e) {
+    addTodo (e) {
       this.todos.unshift({
         id: id++,
         content: e.target.value.trim(),
@@ -57,13 +57,13 @@ export default {
       })
       e.target.value = ''
     },
-    deleteTodo(id) {
-      this.todos.splice(this.todos.findIndex(todo => todo.id === id) , 1)
+    deleteTodo (id) {
+      this.todos.splice(this.todos.findIndex(todo => todo.id === id), 1)
     },
-    toggleFilter(state) {
+    toggleFilter (state) {
       this.filter = state
     },
-    clearAllCompleted() {
+    clearAllCompleted () {
       this.todos = this.todos.filter(todo => !todo.completed)
     }
   }
