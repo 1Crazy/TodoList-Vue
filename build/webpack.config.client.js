@@ -16,10 +16,12 @@ const defaultPluins = [
     'process.env': {
       NODE_ENV: isDev ? '"development"' : '"production"'
     }
-  }),// 可以在js内判断当前环境，方便开发环境中有一些调试提示，而正式环境不需要的东西
+  }), // 可以在js内判断当前环境，方便开发环境中有一些调试提示，而正式环境不需要的东西
   // make sure to include the plugin for the magic
   new VueLoaderPlugin(),
-  new HTMLPlugin(),
+  new HTMLPlugin({
+    template: path.join(__dirname, 'template.html')
+  })
 ]
 
 const devServer = {
@@ -28,6 +30,9 @@ const devServer = {
   overlay: {
     errors: true// 编译时如果有任何错误，让他显示到网页上
   },
+  historyApiFallback: {
+    index: '/public/index.html'
+  }, // 配置了history模式的路由，开发中配置，避免路径找不到404,与output中publicPath相关连
   hot: true // 修改某组件代码，只会更新某组件，而不是刷新整个页面
   // open: true //编译完成后自动打开浏览器
 }
@@ -36,7 +41,7 @@ let config
 
 // 如果是开发环境
 if (isDev) {
-  config = merge(baseConfig,{
+  config = merge(baseConfig, {
     devtool: '#cheap-module-eval-source-map', // 开发环境中source文件显示源码
     module: {
       rules: [
@@ -97,7 +102,7 @@ if (isDev) {
             ]
           })
         }
-      ],
+      ]
     },
     optimization: {
       splitChunks: {
