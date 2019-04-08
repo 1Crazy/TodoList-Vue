@@ -19,6 +19,7 @@
       @toggle="toggleFilter"
       @clearAllCompleted="clearAllCompleted"
     />
+    <!-- <router-view /> -->
   </section>
 </template>
 
@@ -29,6 +30,20 @@ import Tabs from './tabs.vue'
 let id = 0
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    console.log('todo before enter')
+    next()
+  },
+  // 同样的路由形式切换才会被触发,商城中根据id去获取的时候可以在这里处理，代替watch监听
+  beforeRouteUpdate (to, from, next) {
+    console.log('todo update enter')
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('todo leave enter')
+    next()
+  },
+  props: ['id'],
   data () {
     return {
       todos: [],

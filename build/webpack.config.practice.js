@@ -12,7 +12,7 @@ const defaultPluins = [
     'process.env': {
       NODE_ENV: '"development"'
     }
-  }),// 可以在js内判断当前环境，方便开发环境中有一些调试提示，而正式环境不需要的东西
+  }), // 可以在js内判断当前环境，方便开发环境中有一些调试提示，而正式环境不需要的东西
   // make sure to include the plugin for the magic
   new VueLoaderPlugin(),
   new HTMLPlugin({
@@ -70,7 +70,7 @@ config = merge(baseConfig, {
   },
   plugins: defaultPluins.concat([
     // 配置了上面hot在搭配下面使用
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
     // new webpack.NoEmitOnErrorsPlugin() webpack4已取消
   ])
 })

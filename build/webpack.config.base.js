@@ -9,11 +9,12 @@ const config = {
   // optimization:{
   //   minimize: false//不压缩bundle.js，默认为true webpack3中可以使用这个
   // },
-  target: 'web',// webpack编译目标
-  entry: path.join(__dirname,'../client/index.js'),
+  target: 'web', // webpack编译目标
+  entry: path.join(__dirname, '../client/index.js'),
   output: {
     filename: 'bundle.[hash:8].js',
-    path: path.join(__dirname,'../dist')
+    path: path.join(__dirname, '../dist'),
+    publicPath: '/public/'
   },
   module: {
     rules: [
@@ -33,7 +34,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env']
-        },
+        }
       },
       {
         test: /\.js$/,

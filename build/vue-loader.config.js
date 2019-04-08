@@ -5,7 +5,6 @@ module.exports = (isDev) => {
     cssModules: { // FIXME: 此配置展示存在问题
       localIdentName: isDev ? '[path]-[name]-[hash:base64:5]' : '[hash:base64:5]', // 将css根据文件名和文件路径生成独一无二的名字,保密性比较好
       camelCase: true // 将css类名转化为可以在js中用驼峰调用,z之后再scc中<style>标签加上module替代scoped之后，在js中可以使用$style.(class驼峰名调用)
-    }
-    // hotReload:false //配置成false以后，vue组件会取消热承载，默认根据环境变量生成
+    } // hotReload:false //配置成false以后，vue组件会取消热承载，默认根据环境变量生成
   }
 }
