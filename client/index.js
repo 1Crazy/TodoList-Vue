@@ -1,14 +1,45 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './app.vue'
+
 import createRouter from './config/router'
+import createStore from './store/store'
+import Vuex from 'vuex'
 
 import './assets/styles/global.styl'
 import './assets/images/bg.jpg'
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
 
 const router = createRouter()
+const store = createStore()
+
+// 注册新的模块,动态加载模块
+// store.registerModule('c', {
+//   state: {
+//     text: 3
+//   }
+// })
+
+// 解绑c模块
+// store.unregisterModule('c')
+
+// store.watch((state) => state.count + 1, () => {
+//   console.log(3)
+// })
+
+// 监听mutation
+// store.subscribe((mutation, state) => {
+//   console.log(mutation.type) // mutation
+//   console.log(mutation.payload) // 值
+// })
+
+// 监听action
+// store.subscribeAction((action, state) => {
+//   console.log(action.type) // action
+//   console.log(action.payload) // 值
+// })
 
 // 全局导航守卫，每次路由跳转都会触发
 
@@ -35,5 +66,6 @@ router.afterEach((to, from) => {
 
 new Vue({
   router,
+  store,
   render: (h) => h(App)
 }).$mount('#root')
