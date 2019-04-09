@@ -71,7 +71,7 @@ if (isDev) {
     devServer,
     plugins: defaultPluins.concat([
       // 配置了上面hot在搭配下面使用
-      new webpack.HotModuleReplacementPlugin(),
+      new webpack.HotModuleReplacementPlugin()
       // new webpack.NoEmitOnErrorsPlugin() webpack4已取消
     ])
   })
@@ -80,7 +80,7 @@ if (isDev) {
     entry: {
       app: path.join(__dirname, '../client/index.js')
       // vender: ['vue']
-    },// 分离vue库为单独js文件
+    }, // 分离vue库为单独js文件
     output: {
       filename: '[name].[chunkhash:8].js'
     },
